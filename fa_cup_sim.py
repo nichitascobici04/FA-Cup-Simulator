@@ -1,0 +1,376 @@
+from math import *
+from random import *
+DATA_SAMPLE = [
+	{'name': 'Arsenal',                 'rating': 2564.99},
+	{'name': 'Liverpool',               'rating': 2490.24},
+	{'name': 'Manchester City',         'rating': 2479.20},
+	{'name': 'Chelsea',                 'rating': 2438.74},
+	{'name': 'Newcastle United',        'rating': 2404.83},
+	{'name': 'Manchester United',       'rating': 2359.14},
+	{'name': 'Tottenham Hotspur',       'rating': 2357.12},
+	{'name': 'Brighton & Hove Albion',  'rating': 2326.15},
+	{'name': 'Bournemouth',             'rating': 2322.36},
+	{'name': 'Aston Villa',             'rating': 2317.28},
+	{'name': 'Everton',                 'rating': 2308.28},
+	{'name': 'Crystal Palace',          'rating': 2303.44},
+	{'name': 'Fulham',                  'rating': 2300.47},
+	{'name': 'Nottingham Forest',       'rating': 2269.01},
+	{'name': 'Brentford',               'rating': 2243.12},
+	{'name': 'Leeds United',            'rating': 2222.19},
+	{'name': 'West Ham United',         'rating': 2209.32},
+	{'name': 'Sunderland',              'rating': 2203.54},
+	{'name': 'Wolverhampton Wanderers', 'rating': 2169.14},
+	{'name': 'Ipswich Town',            'rating': 2162.20},
+	{'name': 'Coventry City',           'rating': 2154.88},
+	{'name': 'Burnley',                 'rating': 2124.36},
+	{'name': 'Leicester City',          'rating': 2117.40},
+	{'name': 'Birmingham City',         'rating': 2105.68},
+	{'name': 'Southampton',             'rating': 2093.90},
+	{'name': 'Middlesbrough',           'rating': 2085.70},
+	{'name': 'West Bromwich Albion',    'rating': 2077.64},
+	{'name': 'Sheffield United',        'rating': 2075.28},
+	{'name': 'Bristol City',            'rating': 2065.61},
+	{'name': 'Luton Town',              'rating': 2059.26},
+	{'name': 'Swansea City',            'rating': 2048.86},
+	{'name': 'Bolton Wanderers',        'rating': 2047.65},
+	{'name': 'Cardiff City',            'rating': 2038.91},
+	{'name': 'Stoke City',              'rating': 2028.76},
+	{'name': 'Millwall',                'rating': 2013.99},
+	{'name': 'Norwich City',            'rating': 2012.38},
+	{'name': 'Charlton Athletic',       'rating': 2002.53},
+	{'name': 'Blackburn Rovers',        'rating': 1998.57},
+	{'name': 'Stockport County',        'rating': 1980.85},
+	{'name': 'Portsmouth',              'rating': 1977.16},
+	{'name': 'Hull City',               'rating': 1973.15},
+	{'name': 'Preston North End',       'rating': 1970.05},
+	{'name': 'Wrexham',                 'rating': 1966.65},
+	{'name': 'Watford',                 'rating': 1963.78},
+	{'name': 'Huddersfield Town',       'rating': 1963.14},
+	{'name': 'Bradford City',           'rating': 1960.65},
+	{'name': 'Wigan Athletic',          'rating': 1957.43},
+	{'name': 'Derby County',            'rating': 1957.05},
+	{'name': 'Barnsley',                'rating': 1952.11},
+	{'name': 'Stevenage',               'rating': 1946.53},
+	{'name': 'Oxford United',           'rating': 1944.53},
+	{'name': 'Wycombe Wanderers',       'rating': 1941.46},
+	{'name': 'Lincoln City',            'rating': 1937.23},
+	{'name': 'Doncaster Rovers',        'rating': 1931.20},
+	{'name': 'Port Vale',               'rating': 1921.25},
+	{'name': 'Chesterfield',            'rating': 1918.53},
+	{'name': 'Blackpool',               'rating': 1914.61},
+	{'name': 'York City',               'rating': 1912.08},
+	{'name': 'Leyton Orient',           'rating': 1911.88},
+	{'name': 'Mansfield Town',          'rating': 1907.83},
+	{'name': 'Queens Park Rangers',     'rating': 1907.16},
+	{'name': 'Milton Keynes Dons',      'rating': 1899.08},
+	{'name': 'Southend United',         'rating': 1891.33},
+	{'name': 'Grimsby Town',            'rating': 1882.51},
+	{'name': 'Forest Green Rovers',     'rating': 1887.15},
+	{'name': 'Barnet',                  'rating': 1876.88},
+	{'name': 'Carlisle United',         'rating': 1870.48},
+	{'name': 'Wimbledon',               'rating': 1868.93},
+	{'name': 'Swindon Town',            'rating': 1865.50},
+	{'name': 'Plymouth Argyle',         'rating': 1863.38},
+	{'name': 'Cambridge United',        'rating': 1854.50},
+	{'name': 'Salford City',            'rating': 1854.39},
+	{'name': 'Reading',                 'rating': 1852.78},
+	{'name': 'Northampton Town',        'rating': 1851.43},
+	{'name': 'Bristol Rovers',          'rating': 1850.18},
+	{'name': 'Rochdale',                'rating': 1843.20},
+	{'name': 'Crewe Alexandra',         'rating': 1841.54},
+	{'name': 'Walsall',                 'rating': 1832.53},
+	{'name': 'Burton Albion',           'rating': 1830.99},
+	{'name': 'Exeter City',             'rating': 1827.28},
+	{'name': 'Bromley',                 'rating': 1825.97},
+	{'name': 'Rotherham United',        'rating': 1823.01},
+	{'name': 'Gillingham',              'rating': 1821.74},
+	{'name': 'Notts County',            'rating': 1819.75},
+	{'name': 'Peterborough United',     'rating': 1817.31},
+	{'name': 'Sheffield Wednesday',     'rating': 1814.49},
+	{'name': 'Oldham Athletic',         'rating': 1802.93},
+	{'name': 'Tranmere Rovers',         'rating': 1802.13},
+	{'name': 'Brackley Town',           'rating': 1792.03},
+	{'name': 'Kidderminster Harriers',  'rating': 1791.37},
+	{'name': 'Boreham Wood',            'rating': 1787.73},
+	{'name': 'Fleetwood Town',          'rating': 1784.72},
+	{'name': 'Shrewsbury Town',         'rating': 1779.03},
+	{'name': 'Crawley Town',            'rating': 1774.01},
+	{'name': 'Hartlepool United',       'rating': 1770.11},
+	{'name': 'Torquay United',          'rating': 1768.28},
+	{'name': 'Colchester United',       'rating': 1763.89},
+	{'name': 'Barrow',                  'rating': 1759.23},
+	{'name': 'Scunthorpe United',       'rating': 1756.02},
+	{'name': 'Altrincham',              'rating': 1752.82},
+	{'name': 'Fylde',                   'rating': 1751.05},
+	{'name': 'Tamworth',                'rating': 1750.01},
+	{'name': 'Chorley',                 'rating': 1745.39},
+	{'name': 'Dorking Wanderers',       'rating': 1740.96},
+	{'name': 'South Shields',           'rating': 1731.60},
+	{'name': 'Kings Lynn',              'rating': 1730.78},
+	{'name': 'Hornchurch',              'rating': 1729.26},
+	{'name': 'Aldershot Town',          'rating': 1725.49},
+	{'name': 'Chester',                 'rating': 1724.91},
+	{'name': 'Wealdstone',              'rating': 1720.01},
+	{'name': 'Halifax Town',            'rating': 1716.43},
+	{'name': 'Maidenhead United',       'rating': 1713.87},
+	{'name': 'Macclesfield',            'rating': 1710.80},
+	{'name': 'Harrogate Town',          'rating': 1708.25},
+	{'name': 'Ebbsfleet United',        'rating': 1707.15},
+	{'name': 'Accrington Stanley',      'rating': 1706.64},
+	{'name': 'Radcliffe Borough',       'rating': 1700.90},
+	{'name': 'Eastleigh',               'rating': 1700.19},
+	{'name': 'Worthing',                'rating': 1699.65},
+	{'name': 'Spennymoor Town',         'rating': 1694.76},
+	{'name': 'Scarborough Athletic',    'rating': 1693.45},
+	{'name': 'Cheltenham Town',         'rating': 1692.12},
+	{'name': 'Woking',                  'rating': 1690.08},
+	{'name': 'Yeovil Town',             'rating': 1688.57},
+	{'name': 'Weston Super Mare',       'rating': 1683.28},
+	{'name': 'Solihull Moors',          'rating': 1682.38},
+	{'name': 'Buxton',                  'rating': 1681.12},
+	{'name': 'Chelmsford City',         'rating': 1676.89},
+	{'name': 'Sutton United',           'rating': 1675.51},
+	{'name': 'Maidstone United',        'rating': 1675.39},
+	{'name': 'Newport County',          'rating': 1669.36},
+	{'name': 'Hemel Hempstead Town',    'rating': 1660.28},
+	{'name': 'Gateshead',               'rating': 1658.40},
+	{'name': 'Dagenham & Redbridge',    'rating': 1654.71},
+	{'name': 'Totton',                  'rating': 1654.61},
+	{'name': 'Hereford',                'rating': 1652.71},
+	{'name': 'Salisbury',               'rating': 1650.93},
+	{'name': 'Eastbourne Borough',      'rating': 1645.60},
+	{'name': 'Marine',                  'rating': 1644.11},
+	{'name': 'Worksop Town',            'rating': 1642.89},
+	{'name': 'Horsham',                 'rating': 1642.42},
+	{'name': 'Darlington',              'rating': 1642.30},
+	{'name': 'Braintree Town',          'rating': 1639.59},
+	{'name': 'Farnborough Town',        'rating': 1638.44},
+	{'name': 'Boston United',           'rating': 1627.03},
+	{'name': 'Curzon Ashton',           'rating': 1626.38},
+	{'name': 'Bath City',               'rating': 1624.04},
+	{'name': 'Chesham Town',            'rating': 1620.80},
+	{'name': 'Oxford City',             'rating': 1619.08},
+	{'name': 'Telford United',          'rating': 1618.18},
+	{'name': 'Truro City',              'rating': 1615.35},
+	{'name': 'Slough Town',             'rating': 1614.12},
+	{'name': 'Bedford Town',            'rating': 1611.47},
+	{'name': 'Morecambe',               'rating': 1608.01},
+	{'name': 'Hednesford Town',         'rating': 1597.66},
+	{'name': 'Alfreton Town',           'rating': 1594.26},
+	{'name': 'Billericay Town',         'rating': 1592.22},
+	{'name': 'Brentwood Town',          'rating': 1589.20},
+	{'name': 'Spalding United',         'rating': 1587.88},
+	{'name': 'Gainsborough Trinity',    'rating': 1583.56},
+	{'name': 'Stockton Town',           'rating': 1583.36},
+	{'name': 'Dover Athletic',          'rating': 1582.83},
+	{'name': 'Harborough Town',         'rating': 1578.74},
+	{'name': 'Southport',               'rating': 1578.63},
+	{'name': 'Merthyr Town',            'rating': 1577.97},
+	{'name': 'Leamington',              'rating': 1575.47},
+	{'name': 'Walton & Hersham',        'rating': 1575.47},
+	{'name': 'Farnham Town',            'rating': 1571.65},
+	{'name': 'Chatham Town',            'rating': 1565.66},
+	{'name': 'St. Albans City',         'rating': 1564.64},
+	{'name': 'Rushall Olympic',         'rating': 1559.28},
+	{'name': 'United of Manchester',    'rating': 1557.44},
+	{'name': 'Bamber Bridge',           'rating': 1553.72},
+	{'name': 'Guiseley',                'rating': 1550.91},
+	{'name': 'Kettering Town',          'rating': 1548.22},
+	{'name': 'Chichester City',         'rating': 1547.84},
+	{'name': 'Quorn',                   'rating': 1546.46},
+	{'name': 'Enfield Town',            'rating': 1544.53},
+	{'name': 'Havant & Waterlooville',  'rating': 1539.68},
+	{'name': 'Dartford',                'rating': 1539.47},
+	{'name': 'Cleethorpes Town',        'rating': 1533.91},
+	{'name': 'Ashton United',           'rating': 1532.12},
+	{'name': 'Hampton & Richmond',      'rating': 1531.01},
+	{'name': 'Stourbridge',             'rating': 1530.11},
+	{'name': 'Chippenham Town',         'rating': 1529.72},
+	{'name': 'Folkestone Invicta',      'rating': 1528.86},
+	{'name': 'Gloucester City',         'rating': 1528.51},
+	{'name': 'Warrington Rylands',      'rating': 1528.24},
+	{'name': 'Halesowen Town',          'rating': 1526.62},
+	{'name': 'Taunton Town',            'rating': 1522.96},
+	{'name': 'Dulwich Hamlet',          'rating': 1522.60},
+	{'name': 'Peterborough Sports',     'rating': 1521.91},
+	{'name': 'Needham Market',          'rating': 1518.95},
+	{'name': 'Cheshunt',                'rating': 1518.61},
+	{'name': 'Lancaster City',          'rating': 1512.33},
+	{'name': 'Bishops Stortford',       'rating': 1512.17},
+	{'name': 'Aveley',                  'rating': 1507.93},
+	{'name': 'Alvechurch',              'rating': 1507.22},
+	{'name': 'Ilkeston Town',           'rating': 1506.96},
+	{'name': 'Tonbridge Angels',        'rating': 1505.45},
+	{'name': 'Banbury United',          'rating': 1505.06},
+	{'name': 'Sholing',                 'rating': 1502.80},
+	{'name': 'Ramsgate',                'rating': 1501.30},
+	{'name': 'Prescot Cables',          'rating': 1498.86},
+	{'name': 'Cray Valley',             'rating': 1497.50},
+	{'name': 'Hyde United',             'rating': 1496.80},
+	{'name': 'Wimborne Town',           'rating': 1495.96},
+	{'name': 'Cray Wanderers',          'rating': 1495.92},
+	{'name': 'Leiston',                 'rating': 1489.62},
+	{'name': 'Carshalton Athetic',      'rating': 1487.30},
+	{'name': 'Hebburn Town',            'rating': 1487.09},
+	{'name': 'St. Ives Town',           'rating': 1486.74},
+	{'name': 'Lewes',                   'rating': 1480.51},
+	{'name': 'Hungerford Town',         'rating': 1480.44},
+	{'name': 'Frome Town',              'rating': 1479.49},
+	{'name': 'Whitby Town',             'rating': 1476.81},
+	{'name': 'Bracknell Town',          'rating': 1474.56},
+	{'name': 'Hashtag United',          'rating': 1472.01},
+	{'name': 'Dorchester Town',         'rating': 1471.82},
+	{'name': 'Leek Town',               'rating': 1471.80},
+	{'name': 'Redditch United',         'rating': 1465.66},
+	{'name': 'Winchester City',         'rating': 1462.63},
+	{'name': 'Morpeth Town',            'rating': 1461.07},
+	{'name': 'Potters Bar Town',        'rating': 1458.44},
+	{'name': 'Hanwell Town',            'rating': 1455.20},
+	{'name': 'Wingate & Finchley',      'rating': 1453.25},
+	{'name': 'Real Bedford',            'rating': 1452.76},
+	{'name': 'Evesham United',          'rating': 1450.62},
+	{'name': 'Gosport Borough',         'rating': 1446.44},
+	{'name': 'Stratford Town',          'rating': 1446.29},
+	{'name': 'Burgess Hill Town',       'rating': 1444.49},
+	{'name': 'Worcester City',          'rating': 1444.28},
+	{'name': 'Bury Town',               'rating': 1444.04},
+	{'name': 'Poole Town',              'rating': 1442.68},
+	{'name': 'Stocksbridge Parks',      'rating': 1440.99},
+	{'name': 'Welling United',          'rating': 1440.40},
+	{'name': 'Hendon',                  'rating': 1439.66},
+	{'name': 'Warrington Town',         'rating': 1438.47},
+	{'name': 'Bognor Regis Town',       'rating': 1436.33},
+	{'name': 'Whitehawk',               'rating': 1435.68},
+	{'name': 'Berkhamsted',             'rating': 1434.22},
+	{'name': 'Workington',              'rating': 1432.96},
+	{'name': 'Basingstoke Town',        'rating': 1432.20},
+	{'name': 'Swindon Supermarine',     'rating': 1424.34},
+	{'name': 'Weymouth',                'rating': 1422.11},
+	{'name': 'Chertsey Town',           'rating': 1419.95},
+	{'name': 'Uxbridge',                'rating': 1415.78},
+	{'name': 'Stamford',                'rating': 1413.68},
+	{'name': 'Royston Town',            'rating': 1408.61},
+	{'name': 'Bromsgrove Sporting',     'rating': 1408.59},
+	{'name': 'Hastings United',         'rating': 1396.53},
+	{'name': 'Barwell',                 'rating': 1390.88},
+	{'name': 'Yate Town',               'rating': 1385.85},
+	{'name': 'Plymouth Parkway',        'rating': 1384.80},
+	{'name': 'Canvey Island',           'rating': 1379.93},
+	{'name': 'Sudbury',                 'rating': 1372.50},
+	{'name': 'Tiverton Town',           'rating': 1360.69},
+	{'name': 'Hitchin Town',            'rating': 1356.51},
+	{'name': 'Lowestoft Town',          'rating': 1316.16},
+	{'name': 'Bowers & Pitsea',         'rating': 1310.50},
+	{'name': 'Biggleswade Town',        'rating': 1276.91},
+	{'name': 'Marlow',                  'rating': 1160.05},
+]
+roundLabels = [
+	'First Qualifying Round', 'Second Qualifying Round', 'Third Qualifying Round', 'Fourth Qualifying Round', 'First Round', 'Second Round', 
+	'Third Round', 'Fourth Round', 'Fifth Round', 'Quarterfinals', 'Semifinals', '3rd Place Match', 'Final'
+]
+class team:
+	def __init__(self, teamId, name, rating):
+		self.teamId = teamId
+		self.name = name
+		self.rating = rating
+		self.trophies = [0, 0, 0, 0]
+def displayMatchPreview(m):
+	print(f'{m[0].name} - {m[1].name}')
+clearRating = lambda rating : round(rating * 100) / 100
+generateRound = lambda teams : [[teams[x * 2], teams[x * 2 + 1]] for x in range(floor(len(teams) / 2))]
+getMatchResult = lambda m, homeWin : f'{m[0].name} 1 - 0 {m[1].name}' if homeWin == True else f'{m[0].name} 0 - 1 {m[1].name}'
+convert2strength = lambda team, dr, drc : drc ** (team.rating / dr)
+detHomeWinChance = lambda m, dr, drc : convert2strength(m[0], dr, drc) / (convert2strength(m[0], dr, drc) + convert2strength(m[1], dr, drc))
+sim = lambda m, dr, drc : True if random() < detHomeWinChance(m, dr, drc) else False
+detWinner = lambda m, homeWin : m[0] if homeWin == True else m[1]
+detLoser = lambda m, homeWin : m[1] if homeWin == True else m[0]
+detDiff = lambda m, dr, drc, mcr, hw : clearRating((1 - detHomeWinChance(m, dr, drc)) * mcr if hw == True else detHomeWinChance(m, dr, drc) * mcr)
+fairOdds     = [2.15, 3.45]
+unfairOdds   = [1 / x for x in fairOdds]
+realChances  = [x / sum(unfairOdds) for x in unfairOdds]
+strongRating = 2602.27
+weakRating   = 2490.96
+dr           = strongRating - weakRating       # deltaRating
+drc          = realChances[0] / realChances[1] # deltaRatingCoef
+targetCoef   = 10
+targetDeltaRating = clearRating(log(targetCoef) / log(drc) * dr)
+qualificationStructure = [68, 30, 48, 24, 48, 0, 44]
+teamList = [team(x, DATA_SAMPLE[x]['name'], DATA_SAMPLE[x]['rating']) for x in range(len(DATA_SAMPLE))]
+matchesPerTap = 16
+maxChangeCoef = 0.1
+maxChangeRating = clearRating(maxChangeCoef * targetDeltaRating)
+remainingTeamNumber = sum(qualificationStructure)
+currentRoundId = -1
+currentRoundTeams = []
+newRoundTeams = []
+currentRound = []
+resultsMode = False
+partCounter = 1
+seasonCounter = 1
+changeMode = True
+m = ''
+print(f"\nType 'e' for exiting and anything else for continuing\n\nSeason {seasonCounter}")
+while m != 'e':
+	if resultsMode == False:
+		if len(currentRound) == 0:
+			currentRoundId += 1
+			if currentRoundId == len(roundLabels):
+				currentRoundId = 0
+				newRoundTeams = []
+				currentRoundTeams = []
+				seasonCounter += 1
+				remainingTeamNumber = sum(qualificationStructure)
+				if changeMode == True:
+					for x in range(len(teamList) - 1):
+						for y in range(x + 1, len(teamList)):
+							if teamList[x].rating < teamList[y].rating:
+								aux = teamList[x]
+								teamList[x] = teamList[y]
+								teamList[y] = aux
+					# for x in range(matchesPerTap):
+					# 	print(f'{x + 1}. {teamList[x].name}: {teamList[x].rating}')
+				print(f'Season {seasonCounter}')
+			elif currentRoundId == len(roundLabels) - 2:
+				currentRoundTeams = [newRoundTeams.pop(0) for x in range(2)]
+			else:
+				currentRoundTeams = newRoundTeams.copy()
+				newRoundTeams = []
+			if currentRoundId < len(qualificationStructure):
+				remainingTeamNumber -= qualificationStructure[currentRoundId]
+				for x in range(remainingTeamNumber, remainingTeamNumber + qualificationStructure[currentRoundId]):
+					currentRoundTeams.append(teamList[x])
+			shuffle(currentRoundTeams)
+			currentRound = generateRound(currentRoundTeams)
+			partCounter = 1
+		print(f'{roundLabels[currentRoundId]} {f'Part {partCounter}' if len(currentRoundTeams) > matchesPerTap * 2 else ''}')
+		print('Preview')
+		for x in range(min(matchesPerTap, len(currentRound))):
+			displayMatchPreview(currentRound[x])
+		resultsMode = True
+	else:
+		print('Results')
+		for x in range(min(matchesPerTap, len(currentRound))):
+			homeWin = sim(currentRound[0], dr, drc)
+			print(getMatchResult(currentRound[0], homeWin))
+			if changeMode == True:
+				diff = detDiff(currentRound[0], dr, drc, maxChangeRating, homeWin)
+				if homeWin == True:
+					currentRound[0][0].rating = clearRating(currentRound[0][0].rating + diff)
+					currentRound[0][1].rating = clearRating(currentRound[0][1].rating - diff)
+				else:
+					currentRound[0][0].rating = clearRating(currentRound[0][0].rating - diff)
+					currentRound[0][1].rating = clearRating(currentRound[0][1].rating + diff)
+			if currentRoundId == len(roundLabels) - 3:
+				newRoundTeams.insert(0, detLoser(currentRound[0], homeWin))
+			if currentRoundId == len(roundLabels) - 2:
+				teamList[detLoser(currentRound[0], homeWin).teamId].trophies[3] += 1
+				teamList[detWinner(currentRound[0], homeWin).teamId].trophies[2] += 1
+				currentRound.pop(0)
+			if currentRoundId == len(roundLabels) - 1:
+				teamList[detLoser(currentRound[0], homeWin).teamId].trophies[1] += 1
+				teamList[detWinner(currentRound[0], homeWin).teamId].trophies[0] += 1
+			if currentRoundId != len(roundLabels) - 2:
+				newRoundTeams.append(detWinner(currentRound.pop(0), homeWin))
+		partCounter += 1
+		resultsMode = False
+	m = input()
