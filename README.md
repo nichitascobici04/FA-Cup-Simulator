@@ -11,5 +11,3 @@ Sincerely, nixsrev
 # Team names and ratings
 
 The team names and ratings are taken from soccer-ratings.com. The data is from the beginning of October 2025.
-
-PS: The script is not uploaded yet as I've spent over an hour editing this description and I also have other things to do. I'll upload it soon. Thank you for undersanding! 
