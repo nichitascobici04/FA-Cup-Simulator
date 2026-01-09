@@ -210,7 +210,7 @@ DATA_SAMPLE = [
 	{'name': 'Wimborne Town',           'rating': 1495.96},
 	{'name': 'Cray Wanderers',          'rating': 1495.92},
 	{'name': 'Leiston',                 'rating': 1489.62},
-	{'name': 'Carshalton Athetic',      'rating': 1487.30},
+	{'name': 'Carshalton Athletic',     'rating': 1487.30},
 	{'name': 'Hebburn Town',            'rating': 1487.09},
 	{'name': 'St. Ives Town',           'rating': 1486.74},
 	{'name': 'Lewes',                   'rating': 1480.51},
@@ -307,7 +307,7 @@ currentRound = []
 resultsMode = False
 partCounter = 1
 seasonCounter = 1
-changeMode = True
+changeMode = False
 m = ''
 print(f"\nType 'e' for exiting and anything else for continuing\n\nSeason {seasonCounter}")
 while m != 'e':
@@ -327,8 +327,9 @@ while m != 'e':
 								aux = teamList[x]
 								teamList[x] = teamList[y]
 								teamList[y] = aux
-					# for x in range(matchesPerTap):
-					# 	print(f'{x + 1}. {teamList[x].name}: {teamList[x].rating}')
+					print('Team Ratings:')
+					for x in range(matchesPerTap):
+						print(f'{x + 1}. {teamList[x].name}: {teamList[x].rating}')
 				print(f'Season {seasonCounter}')
 			elif currentRoundId == len(roundLabels) - 2:
 				currentRoundTeams = [newRoundTeams.pop(0) for x in range(2)]
