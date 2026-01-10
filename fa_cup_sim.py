@@ -13,6 +13,8 @@ class team:
 		self.name = name
 		self.rating = rating
 		self.trophies = [0, 0, 0, 0]
+	def __str__(self):
+		return f'{self.name} ({self.rating})'
 def displayMatchPreview(m):
 	print(f'{m[0].name} - {m[1].name}')
 clearRating = lambda rating : round(rating * 100) / 100
