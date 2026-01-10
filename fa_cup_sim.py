@@ -2,7 +2,7 @@ from math import *
 from random import *
 import json
 with open('data-sample.json', 'r') as file:
-    a = json.load(file)
+    DATA_SAMPLE = json.load(file)
 roundLabels = [
 	'First Qualifying Round', 'Second Qualifying Round', 'Third Qualifying Round', 'Fourth Qualifying Round', 'First Round', 'Second Round', 
 	'Third Round', 'Fourth Round', 'Fifth Round', 'Quarterfinals', 'Semifinals', '3rd Place Match', 'Final'
@@ -34,8 +34,7 @@ drc          = realChances[0] / realChances[1] # deltaRatingCoef
 targetCoef   = 10
 targetDeltaRating = clearRating(log(targetCoef) / log(drc) * dr)
 qualificationStructure = [68, 30, 48, 24, 48, 0, 44]
-#teamList = [team(x, DATA_SAMPLE[x]['name'], DATA_SAMPLE[x]['rating']) for x in range(len(DATA_SAMPLE))]
-teamList = [team(x, a[x]['name'], a[x]['rating']) for x in range(len(a))]
+teamList = [team(x, DATA_SAMPLE[x]['name'], DATA_SAMPLE[x]['rating']) for x in range(len(DATA_SAMPLE))]
 matchesPerTap = 16
 maxChangeCoef = 0.1
 maxChangeRating = clearRating(maxChangeCoef * targetDeltaRating)
